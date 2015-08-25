@@ -1,0 +1,77 @@
+//===== Cronus Script ========================================
+//= Mestre Costureiro
+//===== Por: =================================================
+//= Bison
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Compatibilidade: =====================================
+//= Padrão eA/Cronus
+//===== Descrição: ===========================================
+//= Npc que faz uma quest repetitiva
+//===== Comentários Adicionais: ==============================
+//= Este npc foi criado para tender um pedido no cronus
+//============================================================
+
+prontera,139,168,4	script	Mestre Costureiro	753,{
+
+	mes "[Mestre Costureiro]";
+	if(!c_quest)
+		set c_quest,0;		
+	if(c_quest == .nv_tq)
+	{
+		mes "Você já completou todos os niveis.";
+		close;
+	}
+	
+	mes "Olá, "+strcharinfo(0)+" deseja upar para o nível "+(c_quest+1)+" de costureido?";
+	if(select(" - Sim.: - Não!")==2)
+		close;
+	next;
+	
+	mes "[Mestre Costureiro]";
+	mes "Então traga-me:";
+	for( set .@i,1; .@i<getarraysize(.item); set .@i,.@i+1 )
+		mes .q_item[.@i]+"x "+getitemname(.item[.@i]);
+	next;
+	
+	mes "[Mestre Costureiro]";
+	mes "Deseja mesmo continuar ?";
+	next;
+	if(select(" - Sim.: - Não!")==2)
+		close;
+		
+	mes "[Mestre Costureiro]";
+	set .@error ,0;
+	for( set .@i,1; .@i<getarraysize(.item); set .@i,.@i+1 )
+	{
+		if(countitem(.item[.@i])<.q_item[.@i])
+		{
+			mes "Você não tem "+.q_item[.@i]+"x "+getitemname(.item[.@i]);
+			set .@error,1;
+		}
+	}
+	
+	if(.@error==1)
+	{
+		next;
+		mes "[Mestre Costureiro]";
+		mes "Junte todos os itens!";
+		close;
+	}
+	
+	mes "Parabéns você cumpriu a missão!";
+	set c_quest,c_quest+1;
+	getitem .premios[c_quest],.qpremios[c_quest];
+	close;
+	
+		
+
+OnInit:
+	// Itens de quests
+	setarray .item[1],916,949,2627,10019; // adicione o id separado por virgula
+	setarray .q_item[1],10,20,1,1; // adicione a quant separado por virgula
+	set .nv_tq,25; // nivel máximo da quest
+	setarray .premios[1],2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310,2310; // premio para cada nivel
+	setarray .qpremios[1],1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1; // quantidade de premio para cada nivel
+end;
+}

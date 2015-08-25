@@ -1,0 +1,29 @@
+//===== Cronus Script ========================================
+//= Yuka
+//===== Por: =================================================
+//= Bison
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Compatibilidade: =====================================
+//= Padrão eA/Cronus
+//===== Descrição: ===========================================
+//= Npc para alterar o tamanho do player
+//===== Comentários Adicionais: ==============================
+//= Este npc foi criado para tender um pedido no cronus
+//============================================================
+
+prontera,150,150,4	script	Yuka	803,{
+	mes "[Yuka]";
+	mes "Olá "+strcharInfo(0)+" deseja alterar seu tamanho?";
+	if(select("Sim:Não")==2)
+		close;
+	next;
+	
+	mes "[Yuka]";
+	mes "Escolha um tamanho!";
+	select("Normal:Pequeno:Grande");
+	mes "Assim que encerrar este dialogo seu tamanho será alterado.";
+	close2;
+	atcommand "@size "+(@menu-1);
+	end;
+}

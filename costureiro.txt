@@ -1,0 +1,69 @@
+prontera,139,168,4	script	Mestre Costureiro	753,{
+
+	mes "[Mestre Costureiro]";
+	if(!c_quest)
+		set c_quest,1;
+	if(c_quest >= 13)
+	{
+		mes "Você já completou todos os niveis.";
+		close;
+	}
+	
+	mes "Olá, "+strcharinfo(0)+" deseja upar seu level de costureiro ?";
+	if(select(" - Sim.: - Não!")==2)
+		close;
+	next;
+	
+	mes "[Mestre Costureiro]";
+	mes "Então traga-me:";
+	for( set .@i,0; .@i<4 ; set .@i,.@i+1 )
+		mes .@q_item[c_quest+.@i]+"x "+.@item[c_quest+.@i];
+	next;
+	
+	mes "[Mestre Costureiro]";
+	mes "Deseja mesmo continuar ?";
+	next;
+	if(select(" - Sim.: - Não!")==2)
+		close;
+		
+	mes "[Mestre Costureiro]";
+	set .@error ,0;
+	for( set .@i,0; .@i<4 ; set .@i,.@i+1 )
+	{
+		if(countitem(.@item[c_quest+.@i])<.@q_item[c_quest+.@i])
+		{
+			mes "Você não tem "+.@q_item[c_quest+.@i]+"x "+.@item[c_quest+.@i];
+			set .@error,1;
+		}
+	}
+	
+	if(.@error==1)
+	{
+		next;
+		mes "[Mestre Costureiro]";
+		mes "Junte todos os itens!";
+		close;
+	}
+	
+	mes "Parabéns você cumpriu a missão!";
+	getitem 2310,1;
+	set c_quest,c_quest+4;
+	close;
+	
+		
+
+OnInit:
+	// Quest 1
+	setarray .@item[1],916,949,2627,10019;
+	setarray .@q_item[1],10,20,1,1;
+	// Quest 2
+	setarray .@item[5],916,949,2627,10019;
+	setarray .@q_item[5],10,20,1,1;
+	// Quest 3
+	setarray .@item[9],916,949,2627,10019;
+	setarray .@q_item[9],10,20,1,1;
+	// Quest 4
+	setarray .@item[13],916,949,2627,10019;
+	setarray .@q_item[13],10,20,1,1;
+end;
+}
